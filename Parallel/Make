@@ -1,0 +1,73 @@
+# Makefile for Windows 11 with MinGW and MS-MPI
+
+# Compiler and flags
+CC = gcc
+MPICC = mpicc
+CFLAGS = -O2 -Wall
+TARGET = parll.exe
+SOURCE = parll.c
+
+# MPI paths (adjust based on your installation)
+MPI_INCLUDE = -I"C:\Program Files\Microsoft MPI\Include"
+MPI_LIB = -L"C:\Program Files\Microsoft MPI\Lib\x64" -lmsmpi
+
+# Default target
+all: $(TARGET)
+
+# Compile with MPI
+$(TARGET): $(SOURCE)
+	$(MPICC) $(CFLAGS) $(MPI_INCLUDE) -o $(TARGET) $(SOURCE) $(MPI_LIB)
+
+# Alternative compilation without MPI paths (if mpicc works directly)
+simple: $(SOURCE)
+	$(MPICC) $(CFLAGS) -o $(TARGET) $(SOURCE)
+
+# Clean compiled files
+clean:
+	del /F /Q $(TARGET) 2>nul || echo File not found
+
+# Run with 4 processes
+run: $(TARGET)
+	mpiexec -n 4 ./$(TARGET) 100000
+
+# Run with custom processes
+run2: $(TARGET)
+	mpiexec -n $(NP) ./$(TARGET) $(N)
+
+# Run with 2 processes
+run2proc: $(TARGET)
+	mpiexec -n 2 ./$(TARGET) 100000
+
+# Run with 4 processes
+run4proc: $(TARGET)
+	mpiexec -n 4 ./$(TARGET) 100000
+
+# Run with 8 processes
+run8proc: $(TARGET)
+	mpiexec -n 8 ./$(TARGET) 100000
+
+# Run all process counts
+runall: $(TARGET)
+	@echo === Running with 1 process ===
+	mpiexec -n 1 ./$(TARGET) 100000
+	@echo.
+	@echo === Running with 2 processes ===
+	mpiexec -n 2 ./$(TARGET) 100000
+	@echo.
+	@echo === Running with 4 processes ===
+	mpiexec -n 4 ./$(TARGET) 100000
+	@echo.
+	@echo === Running with 8 processes ===
+	mpiexec -n 8 ./$(TARGET) 100000
+
+# Help
+help:
+	@echo Available commands:
+	@echo   make          - Compile parll.c
+	@echo   make clean    - Remove compiled executable
+	@echo   make run      - Run with 4 processes, 100000 elements
+	@echo   make run2proc - Run with 2 processes
+	@echo   make run4proc - Run with 4 processes
+	@echo   make run8proc - Run with 8 processes
+	@echo   make runall   - Run with 1,2,4,8 processes
+	@echo   make run2 NP=8 N=500000 - Custom run
