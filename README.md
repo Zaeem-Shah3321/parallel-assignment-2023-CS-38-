@@ -47,33 +47,28 @@ Processes	Time (seconds)	Speedup	Efficiency
 2	0.055372	0.913	0.456
 4	0.065245	0.774	0.194
 8	0.090823	0.556	0.070
-Key Findings
+
+## Key Findings
 Best speedup achieved: 0.913x with 2 processes
-
 Efficiency at highest process count (8 processes): 7.0%
-
 Observation: Speedup < 1 for all cases indicates that parallelization overhead dominates for this problem size
 
-Analysis
+## Analysis
 The parallel implementation underperforms compared to sequential due to:
-
 Communication overhead – Scatter and gather operations add latency
-
 Small problem size – 100,000 elements is too small to overcome parallel overhead
-
 Sequential final merge – Root process bottleneck
-
 Load imbalance – Perfect division only when n % p == 0
 
-Recommendations
+## Recommendations
 For n = 100,000, sequential version is actually faster
 
 Parallel benefits will appear for larger problem sizes (n > 10,000,000)
 
 Use hierarchical merging to improve final merge bottleneck
 
-Repository Structure
-text
+## Repository Structure
+```bash
 Parallel-Assignment/
 ├── sequential/
 │   └── sequential.c          # Sequential merge sort implementation
@@ -87,7 +82,8 @@ Parallel-Assignment/
 │   └── final_report.pdf      # Complete analysis report
 ├── Makefile                  # Build automation
 └── README.md                 # Project overview
-Speedup and Efficiency Formulas
+```
+## Speedup and Efficiency Formulas
 text
 Speedup     = Sequential_Time / Parallel_Time
 Efficiency  = Speedup / Number_of_Processes × 100%
@@ -109,5 +105,5 @@ GCC – Sequential compilation
 MPI (OpenMPI/MPICH) – Parallel compilation and execution
 
 
-Conclusion
+## Conclusion
 This assignment demonstrates that parallelization is not always beneficial. The overhead of communication, synchronization, and sequential bottlenecks can outweigh the benefits of parallel execution for small problem sizes. Understanding these trade-offs is crucial for effective parallel algorithm design.
