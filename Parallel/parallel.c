@@ -100,7 +100,12 @@ int main(int argc, char *argv[])
 
         printf("Time taken (parallel): %f seconds\n", endTime - startTime);
 
-        
+        if(n <= 20)
+        {
+            printf("Sorted array:\n");
+            for(int i = 0; i < n; i++)
+                printf("%d ", fullArray[i]);
+        }
     }
 
     MPI_Finalize();
