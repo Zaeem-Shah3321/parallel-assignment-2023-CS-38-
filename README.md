@@ -1,8 +1,8 @@
 # Parallel Assignment: Merge Sort Performance Analysis
 
 ## Student Information
-- Name: [Your Name]
-- Roll Number: [Your Roll Number]
+- Name: Syed M. Zaeem 
+- Roll Number: 2023-CS-38
 
 ## Problem Description
 This project implements and compares sequential vs. parallel versions of the Merge Sort algorithm. Merge Sort is a divide-and-conquer algorithm with O(n log n) time complexity. The parallel implementation distributes the array across multiple MPI processes, each sorting its local chunk before gathering and performing a final merge.
